@@ -1,0 +1,7 @@
+.tableWrapper {
+    width: auto !important;
+    max-height: 35vh !important;
+    overflow: auto !important;
+    display:inline-block !important;
+    padding-top: 1%;
+}
