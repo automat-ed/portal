@@ -1,9 +1,9 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Navigationbar from './components/Navbar/Navbar';
-import Leaflet from './components/Leaflet/Leaflet';
-import RobotInfoTable from './components/RobotInfoTable/RobotInfoTable';
-import MonitorButtons from './components/MonitorButtons/MonitorButtons';
+import Navigationbar from './Navbar/Navbar';
+import Leaflet from './Leaflet/Leaflet';
+import RobotInfoTable from './RobotInfoTable/RobotInfoTable';
+import MonitorButtons from './MonitorButtons/MonitorButtons';
 import React, { Component } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 class App extends Component{
