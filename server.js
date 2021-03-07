@@ -9,59 +9,38 @@ const io = socketIO(server);
 
 // MongoDB Connection
 const MongoClient = require('mongodb').MongoClient;
-const uri = "mongodb+srv://portal-website:demeaning-never-recent@portalwebsite.sjxh6.mongodb.net/streetsmart?retryWrites=true&w=majority";
+const uri = "mongodb+srv://portal-website:dBo9uSE3VL7yLu@portalwebsite.sjxh6.mongodb.net/streetsmart?retryWrites=true&w=majority";
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 client.connect(err => {
-  const collection = client.db("test").collection("devices");
-  // perform actions on the collection object
-  client.close();
+  if (err) throw err;
 });
 //
 
 //Show All Robots
 app.get('/showallrobots', function(req, res) {
-
-  MongoClient.connect(uri, function(err, db) {
-      useNewUrlParser: true
-      if (err) throw err;
-      var dbo = db.db("streetsmart");
-      dbo.collection("robots").find({}).toArray(function(err, result) {
-          if (err) throw err;
-          res.send(result);
-          db.close();
-      });
-  });
+    var dbo = client.db("streetsmart");
+    dbo.collection("robots").find({}).toArray(function(err, result) {
+        res.send(result);
+    });
+  
 
 })
 
 //Show All Robot Details
 app.get('/showallrobotdetails', function(req, res) {
-
-  MongoClient.connect(uri, function(err, db) {
-      useNewUrlParser: true
-      if (err) throw err;
-      var dbo = db.db("streetsmart");
-      dbo.collection("robotdetails").find({}).toArray(function(err, result) {
-          if (err) throw err;
-          res.send(result);
-          db.close();
-      });
-  });
+    var dbo = client.db("streetsmart");
+    dbo.collection("robotdetails").find({}).toArray(function(err, result) {
+        res.send(result);
+    });
 
 })
 
 app.get('/showallrobots', function(req, res) {
-
-  MongoClient.connect(uri, function(err, db) {
-      useNewUrlParser: true
-      if (err) throw err;
-      var dbo = db.db("streetsmart");
-      dbo.collection("robots").find({}).toArray(function(err, result) {
-          if (err) throw err;
-          res.send(result);
-          db.close();
-      });
-  });
+    dbo.collection("robots").find({}).toArray(function(err, result) {
+        if (err) throw err;
+        res.send(result);
+        db.close();
+    });
 
 })
 
