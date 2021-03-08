@@ -1,75 +1,20 @@
 const express = require("express");
 const http = require("http");
 const socketIO = require("socket.io");
-const mysql = require("mysql");
-// Initialize modules
-const app = express();
-const server = http.createServer(app);
-const io = socketIO(server);
+const mongoose = require("mongoose");
+const app = require("./app");
+
+// Read .env file for secrets
+require('dotenv').config()
 
 // MongoDB Connection
-const MongoClient = require('mongodb').MongoClient;
-const uri = "mongodb+srv://portal-website:demeaning-never-recent@portalwebsite.sjxh6.mongodb.net/streetsmart?retryWrites=true&w=majority";
-const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
-client.connect(err => {
-  const collection = client.db("test").collection("devices");
-  // perform actions on the collection object
-  client.close();
-});
-//
+mongoose.connect(process.env.DATABASE_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
 
-//Show All Robots
-app.get('/showallrobots', function(req, res) {
-
-  MongoClient.connect(uri, function(err, db) {
-      useNewUrlParser: true
-      if (err) throw err;
-      var dbo = db.db("streetsmart");
-      dbo.collection("robots").find({}).toArray(function(err, result) {
-          if (err) throw err;
-          res.send(result);
-          db.close();
-      });
-  });
-
-})
-
-//Show All Robot Details
-app.get('/showallrobotdetails', function(req, res) {
-
-  MongoClient.connect(uri, function(err, db) {
-      useNewUrlParser: true
-      if (err) throw err;
-      var dbo = db.db("streetsmart");
-      dbo.collection("robotdetails").find({}).toArray(function(err, result) {
-          if (err) throw err;
-          res.send(result);
-          db.close();
-      });
-  });
-
-})
-
-app.get('/showallrobots', function(req, res) {
-
-  MongoClient.connect(uri, function(err, db) {
-      useNewUrlParser: true
-      if (err) throw err;
-      var dbo = db.db("streetsmart");
-      dbo.collection("robots").find({}).toArray(function(err, result) {
-          if (err) throw err;
-          res.send(result);
-          db.close();
-      });
-  });
-
-})
-
-app.use(
-  express.static("public", {
-    fallthrough: false,
-  })
-);
+// Initialize socket.io server
+const server = http.createServer(app);
+const io = socketIO(server);
 
 io.on("connection", (socket) => {
   console.log("connected");
