@@ -1,0 +1,24 @@
+name: Continuous Integration
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  quality_check:
+    name: Build
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Build React app
+        run: npm run build
+        
