@@ -16,6 +16,14 @@ describe('Server-side Tests', function () {
         db = mongoose.connection;
     });
 
+    describe('GET /', function () {
+        it('returns 200 OK', function (done) {
+            request(app)
+                .get('/')
+                .expect(200, done);
+        });
+    });
+
     describe('GET /robots', function () {
         it('returns 200 OK', function (done) {
             request(app)
