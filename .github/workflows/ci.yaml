@@ -40,3 +40,5 @@ jobs:
         run: npm install
       - name: Run Mocha unit tests
         run: npm run server-test
+        env:
+          TEST_DB_URI: ${{ secrets.TEST_DB_URI }}
