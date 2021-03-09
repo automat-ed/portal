@@ -7,23 +7,21 @@ class RobotInfoTable extends Component {
    constructor(props){
        super(props)
        this.state = {
-           robots: [],
-           isLoading: false,
-           isError: false
+           robots: []
        }
    }
 
    async fetchRobots(){
-        this.setState({isLoading:true})
         const url = "http://localhost:2000/showallrobots";
         const response = await fetch(url);
         if(response.ok){
             const robots = await response.json();
-            this.setState({robots: robots, isLoading: false})
+            this.setState({robots: robots})
             console.log(robots)
         }
         else{
-            this.setState({error: true, isLoading: false})
+            this.setState({error: true
+           isLoading: false,})
         }
     }
     componentDidMount() {
@@ -51,7 +49,7 @@ class RobotInfoTable extends Component {
     
     
     render(){
-        const {robots, isLoading, isError} = this.state
+        const {robots} = this.state
         return robots.length > 0
         ? (
             <div className="tableWrapper">
