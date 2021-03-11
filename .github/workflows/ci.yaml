@@ -1,0 +1,46 @@
+name: Continuous Integration
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+          check-latest: true
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Install dependencies
+        run: npm install
+      - name: Build React app
+        run: npm run build
+  
+  mocha-test:
+    name: Mocha Unit Tests
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+          check-latest: true
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Install dependencies
+        run: npm install
+      - name: Build React app
+        run: npm run build
+      - name: Run Mocha unit tests
+        run: npm run server-test
+        env:
+          TEST_DB_URI: ${{ secrets.TEST_DB_URI }}
