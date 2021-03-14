@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 const robotSchema = new mongoose.Schema({
     name: String,
     connected: Boolean,
-    ipaddress: String,
+    key: String,
 });
 
 // Export model
