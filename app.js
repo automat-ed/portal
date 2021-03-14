@@ -12,6 +12,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());
 
+const { auth } = require('./middleware/auth')
+const { LoginUser, LogoutUser, getUserDetails, getFirstPage, getAlli } = require('./controller/AuthController');
+
 //Show All Robots
 app.get('/robots', auth, async function (req, res) {
     try {
@@ -31,9 +34,6 @@ app.get('/robot_details', auth, async function (req, res) {
         console.log(error);
     }
 });
-
-const { auth } = require('./middleware/auth')
-const { LoginUser, LogoutUser, getUserDetails, getFirstPage, getAlli } = require('./controller/AuthController');
 
 app.post('/login',LoginUser);
 app.get('/login', function(req,res){
