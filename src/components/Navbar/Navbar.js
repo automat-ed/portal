@@ -19,7 +19,8 @@ function Navigationbar() {
         <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="mr-auto">
             <Nav.Link href="#">Monitoring Panel</Nav.Link>
-            <Nav.Link href="#">Robot Registration</Nav.Link>
+            <Nav.Link href="/addrob">Robot Registration</Nav.Link>
+            <Nav.Link href="/logout">Logout</Nav.Link>
             </Nav>
         </Navbar.Collapse>
         </Navbar>
