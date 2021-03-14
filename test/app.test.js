@@ -19,7 +19,7 @@ describe('Server-side Tests', function () {
         it('returns 200 OK', function (done) {
             request(app)
                 .get('/')
-                .expect(200, done);
+                .expect(302, done);
         });
     });
 
@@ -27,7 +27,7 @@ describe('Server-side Tests', function () {
         it('returns 200 OK', function (done) {
             request(app)
                 .get('/robots')
-                .expect(200, done);
+                .expect(302, done);
         });
 
         it('responds with json', function (done) {
@@ -41,7 +41,7 @@ describe('Server-side Tests', function () {
         it('returns 200 OK', function (done) {
             request(app)
                 .get('/robot_details')
-                .expect(200, done);
+                .expect(302, done);
         });
 
         it('responds with json', function (done) {

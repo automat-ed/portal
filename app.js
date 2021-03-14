@@ -13,7 +13,7 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 
 //Show All Robots
-app.get('/robots', async function (req, res) {
+app.get('/robots', auth, async function (req, res) {
     try {
         const result = await robot.find({});
         res.send(result);
@@ -23,7 +23,7 @@ app.get('/robots', async function (req, res) {
 });
 
 //Show All Robot Details
-app.get('/robot_details', async function (req, res) {
+app.get('/robot_details', auth, async function (req, res) {
     try {
         const result = await robotDetails.find({});
         res.send(result);
@@ -42,7 +42,7 @@ app.get('/login', function(req,res){
 
 app.get('/auth',auth, getUserDetails);
 
-app.get('/index',auth, getAlli);
+app.get('/index', auth, getAlli);
 
 app.get('/logout', auth, LogoutUser);
 
