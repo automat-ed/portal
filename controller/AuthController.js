@@ -83,25 +83,6 @@ exports.getFirstPage = (req, res) => {
 	})
 }
 
-exports.RegisterRob = async (req, res) => {
-	var robot = new Robot(req.body);
-	await robot.save((err, doc) => {
-		if (err) {
-		return res.status(422).json({errors:err})
-		} else {
-			const robotData = {
-				name: doc.name,
-				ipaddress: doc.ipaddress,
-			}
-			return res.status(200).json({
-				success: true,
-				message: 'Robot Successfully Added',
-				name: doc.name,
-				ipaddress: doc.ipaddress,
-			})
-		}
-	});
-}
 
 exports.getAlli = async(req, res) => {
     //var docs = await Notif.find({'read':false});
