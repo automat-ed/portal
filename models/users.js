@@ -43,8 +43,8 @@ us.methods.generateToken = function (callBack) {
 	var token = jwt.sign(user._id.toHexString(), process.env.ACCESS_TOKEN_SECRET);
 	user.token = token;
 	user.save(function (err, user) {
-		if (err) return callBack(err)
-		callBack(null, user)
+		if (err) return callBack(err);
+		callBack(null, user);
 	});
 };
 
