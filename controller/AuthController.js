@@ -63,7 +63,7 @@ exports.LogoutUser = (req, res) => {
 	)
 }
 //get authenticated user details
-exports.getUserDetails= (req, res) => {
+exports.getUserDetails = (req, res) => {
 	return res.status(200).json({
 		isAuthenticated: true,
 		name: req.user.name,
