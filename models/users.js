@@ -28,7 +28,8 @@ us.pre('save', function (next) {
 		next();
 	}
 });
-//for comparing the users entered password with database duing login 
+
+// For comparing the users entered password with database duing login 
 us.methods.comparePassword = function (candidatePassword, callBack) {
 	bcrypt.compare(candidatePassword, this.password, function (err, isMatch) {
 		if (err) return callBack(err);
