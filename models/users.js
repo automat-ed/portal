@@ -51,7 +51,7 @@ us.methods.generateToken = function (callBack) {
 // Validating token for auth routes middleware
 us.statics.findByToken = function (token, callBack) {
 	var user = this;
-	jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, function (err, decode) {//this decode must give user_id if token is valid .ie decode=user_id
+	jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, function (err, decode) { // This decode must give user_id if token is valid. ie decode=user_id
 		user.findOne({ "_id": decode, "token": token }, function (err, user) {
 			if (err) return callBack(err);
 			callBack(null, user);
