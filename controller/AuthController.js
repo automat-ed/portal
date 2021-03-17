@@ -1,4 +1,3 @@
-//const db = require('../models/db');
 const path = require('path');
 const User = require('../models/users');
 const Robot = require("../models/robot");
