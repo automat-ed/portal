@@ -108,11 +108,6 @@ exports.getAlli = async(req, res) => {
     //res.render(path.join(__dirname,'../public/index.ejs'), {data: docs});
     res.sendFile(path.join(__dirname,'../build/index.html'))
 }
-exports.getAlla = async(req, res) => {
-    //var docs = await Notif.find({'read':false});
-    //res.render(path.join(__dirname,'../public/add_robot.ejs'), {data: docs});
-    res.render(path.join(__dirname,'../src/components/AddRobot/add_robot.js'))
-}
 
 exports.updateNotif = (req, res) => {
 	console.log(req.params.id);
