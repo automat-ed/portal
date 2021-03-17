@@ -36,7 +36,8 @@ us.methods.comparePassword = function (candidatePassword, callBack) {
 		callBack(null, isMatch);
 	});
 }
-//for generating token when loggedin
+
+// For generating token when logged in
 us.methods.generateToken = function (callBack) {
 	var user = this;
 	var token = jwt.sign(user._id.toHexString(), process.env.ACCESS_TOKEN_SECRET);
