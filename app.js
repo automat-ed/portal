@@ -37,7 +37,7 @@ app.get('/robot_details', auth, async function (req, res) {
 
 app.post('/login',LoginUser);
 app.get('/login', function(req,res){
-    res.sendFile(path.join(__dirname,'./public/login.html'))
+    res.sendFile(path.join(__dirname, 'public', 'login.html'));
 });
 
 app.get('/auth',auth, getUserDetails);
