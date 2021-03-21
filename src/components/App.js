@@ -1,6 +1,5 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Navigationbar from './Navbar/Navbar';
 import Leaflet from './Leaflet/Leaflet';
 import RobotInfoTable from './RobotInfoTable/RobotInfoTable';
 import MonitorButtons from './MonitorButtons/MonitorButtons';
@@ -10,7 +9,6 @@ class App extends Component{
   render(){
     return(
       <div>
-        <Navigationbar />
         <Container fluid className="bg">
           <Row>
             <Col sm={9}>
