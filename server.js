@@ -7,12 +7,17 @@ import Robot from "./models/robot.js";
 import dotenv from "dotenv";
 
 // Read .env file for secrets
-dotenv.config()
+dotenv.config();
 
 // MongoDB Connection
-mongoose.connect(process.env.DATABASE_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(process.env.DATABASE_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useFindAndModify: false,
+  useCreateIndex: true,
+});
 const db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
+db.on("error", console.error.bind(console, "connection error:"));
 
 // Initialize socket.io server
 const server = createServer(app);
@@ -27,6 +32,7 @@ io.use(async (socket, next) => {
     err.data = { content: "Robot is not authorized to connect to Portal." };
     next(err);
   } else {
+    socket.user = valid_robot._id;
     next();
   }
 });
@@ -36,10 +42,28 @@ io.on("connection", (socket) => {
 
   socket.on("disconnect", () => {
     console.log("disconnected");
+    Robot.findByIdAndUpdate(
+      socket.user,
+      {
+        state: {
+          connected: false,
+        },
+      },
+      function (err, res) {
+        if (err) {
+          console.log(err);
+        }
+      }
+    );
   });
 
-  socket.on("robot_detail", (data) => {
+  socket.on("robot_detail", async (data) => {
     console.log(data);
+    Robot.findByIdAndUpdate(socket.user, { state: data }, function (err, res) {
+      if (err) {
+        console.log(err);
+      }
+    });
   });
 });
 
