@@ -2,22 +2,21 @@ import mongoose from "mongoose";
 const { Schema } = mongoose;
 
 // Define subdocuments
-const gpsSchema = new Schema({
-    latitude: {type: Number, default: null},
-    longitude: {type: Number, default: null}
-});
-
 const robotStateSchema = new Schema({
-    state: {type: String, default: "Off"},
-    connected: {type: Boolean, default: false},
-    gps: {type: gpsSchema, default: {}}
+  connected: { type: Boolean, default: false },
+  battery: { type: Number, default: null },
+  state: { type: String, default: "Off" },
+  gps: {
+    lat: { type: String, default: null },
+    lng: { type: String, default: null },
+  },
 });
 
 // Define Robot schema
 const robotSchema = new Schema({
-    name: String,
-    key: String,
-    state: {type: robotStateSchema, default: {}}
+  name: String,
+  key: { type: String, index: true },
+  state: { type: robotStateSchema, default: {} },
 });
 
 // Export model
