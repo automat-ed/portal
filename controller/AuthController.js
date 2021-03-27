@@ -59,7 +59,8 @@ exports.LogoutUser = (req, res) => {
 		}
 	)
 }
-//get authenticated user details
+
+// Get authenticated user details
 exports.getUserDetails = (req, res) => {
 	return res.status(200).json({
 		isAuthenticated: true,
