@@ -40,7 +40,7 @@ exports.LoginUser = (req, res) => {
 								token: user.token
 							}
 							// Saving token to cookie
-							res.cookie('authToken', user.token, {maxAge: 28800 * 1000, httpOnly: true}); // available 8h
+							res.cookie('authToken', user.token, {maxAge: 28800 * 1000, httpOnly: true}); // Available 8h
 							res.redirect('/index')
 						}
 					});
