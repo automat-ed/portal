@@ -26,8 +26,6 @@ exports.LoginUser = (req, res) => {
 			return res.status(404).json({ success: false, message: 'Username not found!' });
 		} else {
 			user.comparePassword(req.body.password, (err, isMatch) => {
-				console.log(isMatch);
-				//isMatch is eaither true or false
 				if (!isMatch) {
 					return res.status(400).json({ success: false, message: 'Wrong Password!' });
 				} else {
