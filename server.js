@@ -1,12 +1,13 @@
-const express = require("express");
-const http = require("http");
-const socketIO = require("socket.io");
-const mongoose = require("mongoose");
-const app = require("./app");
-const robot = require("./models/robot");
+import express from "express";
+import { createServer } from "http";
+import { Server } from "socket.io";
+import mongoose from "mongoose";
+import app from "./app.js";
+import Robot from "./models/robot.js";
+import dotenv from "dotenv";
 
 // Read .env file for secrets
-require('dotenv').config()
+dotenv.config()
 
 // MongoDB Connection
 mongoose.connect(process.env.DATABASE_URI, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -14,12 +15,12 @@ const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 
 // Initialize socket.io server
-const server = http.createServer(app);
-const io = socketIO(server);
+const server = createServer(app);
+const io = new Server(server);
 
 io.use(async (socket, next) => {
   const robot_key = socket.handshake.headers.secret;
-  const valid_robot = await robot.findOne({ key: robot_key });
+  const valid_robot = await Robot.findOne({ key: robot_key });
 
   if (!valid_robot) {
     const err = new Error("Not authorized");
@@ -35,6 +36,10 @@ io.on("connection", (socket) => {
 
   socket.on("disconnect", () => {
     console.log("disconnected");
+  });
+
+  socket.on("robot_detail", (data) => {
+    console.log(data);
   });
 });
 
