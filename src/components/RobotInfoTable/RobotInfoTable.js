@@ -5,32 +5,38 @@ import { Table } from "react-bootstrap";
 import "./RobotInfoTable.css";
 
 function RobotInfoTable(props) {
-  if (props.robots === 0) {
-    return <div>No robots online.</div>;
+  let robotTableRows = null;
+  if (props.robots.length === 0) {
+    robotTableRows = (
+      <tr style={{ cursor: "pointer" }}>
+        <td colSpan={4}>No robots found.</td>
+      </tr>
+    );
+  } else {
+    robotTableRows = props.robots.map((robot) => (
+      <tr
+        className="clickable-row"
+        key={robot._id}
+        onClick={props.onRobotSelect(robot._id)}
+        style={{ cursor: "pointer" }}
+      >
+        <td>{robot.name}</td>
+        <td>{robot.state.state}</td>
+        <td>{robot.state.battery}</td>
+        <td></td>
+      </tr>
+    ));
   }
-
-  const robotTableRows = props.robots.map((robot) => (
-    <tr className="clickable-row" key={robot._id}>
-      <td>{robot._id}</td>
-      <td>{robot.name}</td>
-      <td>{robot.state.state}</td>
-      <td>{robot.state.battery}</td>
-      <td>{robot.state.gps.lat}</td>
-      <td>{robot.state.gps.lng}</td>
-    </tr>
-  ));
 
   return (
     <div className="tableWrapper">
       <Table responsive striped bordered hover variant="dark">
         <thead>
           <tr>
-            <th>ID</th>
             <th>Name</th>
             <th>State</th>
             <th>Battery</th>
-            <th>Latitude</th>
-            <th>Longitude</th>
+            <th>Grit Level</th>
           </tr>
         </thead>
         <tbody>{robotTableRows}</tbody>

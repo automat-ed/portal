@@ -47,6 +47,12 @@ io.on("connection", (socket) => {
       {
         state: {
           connected: false,
+          battery: null,
+          state: "Off",
+          gps: {
+            lat: null,
+            lng: null,
+          },
         },
       },
       function (err, res) {

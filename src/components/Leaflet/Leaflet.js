@@ -1,53 +1,36 @@
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
-import React, { useState } from "react";
-import { Table } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
 import "./Leaflet.css";
+import Test from "./Test.js";
 
 function Leaflet(props) {
   const [zoom, setZoom] = useState(16);
-  const [currLocation, setCurrLocation] = useState([
-    55.9419738104196,
-    -3.19145729727135,
-  ]);
+  const [currLocation, setCurrLocation] = useState([50.0, 50.0]);
 
-  const adjustMap = (lng, lat) => {
-    setCurrLocation([lng, lat]);
-  };
+  let currRobot = null;
+  if (props.currRobot) {
+    currRobot = props.robots.filter((robot) => {
+      return robot._id === props.currRobot;
+    })[0];
+  }
 
-  const robotMarkers = props.robots.map((robot) => {
-    <Marker position={[robot.longitude, robot.latitude]}>
-      <Popup>
-        <Table responsive striped bordered hover variant="dark">
-          <thead>
-            <tr>
-              <td>ID</td>
-              <td>{robot._id}</td>
-            </tr>
-            <tr>
-              <td>Name</td>
-              <td>{robot.name}</td>
-            </tr>
-            <tr>
-              <td>State</td>
-              <td>{robot.state.state}</td>
-            </tr>
-            <tr>
-              <td>Battery</td>
-              <td>{robot.state.state}</td>
-            </tr>
-            <tr>
-              <td>Latitude</td>
-              <td>{robot.state.gps.lat}</td>
-            </tr>
-            <tr>
-              <td>Longitude</td>
-              <td>{robot.state.gps.lng}</td>
-            </tr>
-          </thead>
-        </Table>
-      </Popup>
-    </Marker>;
-  });
+  let robotMarkers = null;
+  if (props.robots.length > 0) {
+    robotMarkers = props.robots.map((robot) => {
+      if (robot.state.gps.lat !== null && robot.state.gps.lng !== null) {
+        return (
+          <Marker
+            position={[robot.state.gps.lat, robot.state.gps.lng]}
+            eventHandlers={{
+              click: () => {
+                props.onRobotSelect(robot._id);
+              },
+            }}
+          />
+        );
+      }
+    });
+  }
 
   return (
     <div>
@@ -62,6 +45,7 @@ function Leaflet(props) {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         {robotMarkers}
+        <Test currRobot={currRobot} />
       </MapContainer>
     </div>
   );
