@@ -27,8 +27,6 @@ const io = new Server(server);
 io.use(async (socket, next) => {
   const robot_key = socket.handshake.headers.secret;
 
-  console.log(robot_key);
-
   if (robot_key === "frontend") {
     next();
   } else {
@@ -55,8 +53,6 @@ io.on("connection", (socket) => {
       ...robot_mapping,
       [socket.user]: socket.id,
     };
-
-    console.log(robot_mapping);
 
     socket.on("disconnect", () => {
       console.log("disconnected");
