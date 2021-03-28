@@ -1,18 +1,11 @@
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import React, { useEffect, useState } from "react";
 import "./Leaflet.css";
-import Test from "./Test.js";
+import MapControl from "./MapControl.js";
 
 function Leaflet(props) {
   const [zoom, setZoom] = useState(16);
   const [currLocation, setCurrLocation] = useState([50.0, 50.0]);
-
-  let currRobot = null;
-  if (props.currRobot) {
-    currRobot = props.robots.filter((robot) => {
-      return robot._id === props.currRobot;
-    })[0];
-  }
 
   let robotMarkers = null;
   if (props.robots.length > 0) {
@@ -45,7 +38,7 @@ function Leaflet(props) {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         {robotMarkers}
-        <Test currRobot={currRobot} />
+        <MapControl robots={props.robots} currRobot={props.currRobot} />
       </MapContainer>
     </div>
   );
