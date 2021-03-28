@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import RobotInfoTable from "../RobotInfoTable/RobotInfoTable.js";
 import { Row, Table, Button } from "react-bootstrap";
 import "./SideBar.css";

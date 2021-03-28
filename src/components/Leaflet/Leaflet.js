@@ -1,12 +1,9 @@
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
-import React, { useEffect, useState } from "react";
+import { MapContainer, TileLayer, Marker } from "react-leaflet";
+import React from "react";
 import "./Leaflet.css";
 import MapControl from "./MapControl.js";
 
 function Leaflet(props) {
-  const [zoom, setZoom] = useState(16);
-  const [currLocation, setCurrLocation] = useState([50.0, 50.0]);
-
   let robotMarkers = null;
   if (props.robots.length > 0) {
     robotMarkers = props.robots.map((robot) => {
@@ -22,6 +19,8 @@ function Leaflet(props) {
           />
         );
       }
+
+      return null;
     });
   }
 
@@ -29,8 +28,8 @@ function Leaflet(props) {
     <div>
       <MapContainer
         className="map"
-        center={currLocation}
-        zoom={zoom}
+        center={[50.0, 50.0]}
+        zoom={16}
         scrollWheelZoom={true}
       >
         <TileLayer

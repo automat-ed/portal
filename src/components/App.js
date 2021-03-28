@@ -2,12 +2,11 @@ import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Leaflet from "./Leaflet/Leaflet.js";
 import SideBar from "./SideBar/SideBar.js";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 
 function App() {
   const url = "http://localhost:2000/robots";
-  const refresh = 10000;
   const [robots, setRobots] = useState([]);
   const [currRobot, setCurrRobot] = useState(null);
 

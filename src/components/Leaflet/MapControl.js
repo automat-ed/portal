@@ -1,5 +1,5 @@
 import { useMap } from "react-leaflet";
-import React, { useState } from "react";
+import { useState } from "react";
 
 function MapControl(props) {
   const [currRobot, setCurrRobot] = useState(null);
