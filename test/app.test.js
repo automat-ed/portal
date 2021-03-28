@@ -35,16 +35,6 @@ describe("Server-side Tests", function () {
     });
   });
 
-  describe("GET /robot_details", function () {
-    it("returns 200 OK", function (done) {
-      request(app).get("/robot_details").expect(200, done);
-    });
-
-    it("responds with json", function (done) {
-      request(app).get("/robot_details").expect("Content-Type", /json/, done);
-    });
-  });
-
   // Close connection to database
   after("Close connection to database", function () {
     db.close();
