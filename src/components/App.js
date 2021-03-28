@@ -1,40 +1,61 @@
-import './App.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import Navigationbar from './Navbar/Navbar';
-import Leaflet from './Leaflet/Leaflet';
-import RobotInfoTable from './RobotInfoTable/RobotInfoTable';
-import MonitorButtons from './MonitorButtons/MonitorButtons';
-import React, { Component } from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
-class App extends Component{
-  render(){
-    return(
-      <div>
-        <Navigationbar />
-        <Container fluid className="bg">
-          <Row>
-            <Col sm={9}>
-              <Leaflet />
-            </Col>
-            <Col sm={3}>
-              <Row>
-                <h2>Current Robots</h2>
-              </Row>
-              <Row>
-                <RobotInfoTable />
-              </Row>
-              <Row>
-                <MonitorButtons />
-              </Row>
-              <Row>
-                <h2>Camera Feed Here</h2>
-              </Row>
-            </Col>
-          </Row>
-        </Container>
-      </div>
-    )
-  }
+import "./App.css";
+import "bootstrap/dist/css/bootstrap.min.css";
+import Leaflet from "./Leaflet/Leaflet.js";
+import SideBar from "./SideBar/SideBar.js";
+import React, { useState, useEffect } from "react";
+import { Container, Row, Col } from "react-bootstrap";
+
+function App() {
+  const url = "http://localhost:2000/robots";
+  const [robots, setRobots] = useState([]);
+  const [currRobot, setCurrRobot] = useState(null);
+
+  const fetchData = async function () {
+    try {
+      const response = await fetch(url);
+      if (response.ok) {
+        const new_robots = await response.json();
+        setRobots([...new_robots]);
+      }
+    } catch {}
+  };
+
+  useEffect(() => {
+    fetchData();
+    const id = setInterval(fetchData, 5000);
+    return () => clearInterval(id);
+  }, []);
+
+  const onRobotSelect = (id) => (event) => {
+    setCurrRobot(id);
+  };
+
+  const onRobotSelectMarker = (id) => {
+    setCurrRobot(id);
+  };
+
+  return (
+    <div>
+      <Container fluid className="bg">
+        <Row>
+          <Col sm={9}>
+            <Leaflet
+              robots={robots}
+              currRobot={currRobot}
+              onRobotSelect={onRobotSelectMarker}
+            />
+          </Col>
+          <Col sm={3}>
+            <SideBar
+              robots={robots}
+              currRobot={currRobot}
+              onRobotSelect={onRobotSelect}
+            />
+          </Col>
+        </Row>
+      </Container>
+    </div>
+  );
 }
 
 export default App;

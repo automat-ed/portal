@@ -1,6 +1,5 @@
-const express = require("express");
-const robot = require("./models/robot");
-const robotDetails = require("./models/robotDetails");
+import express from "express";
+import Robot from "./models/robot.js";
 
 const path = require('path');
 var bodyParser = require('body-parser');
@@ -16,23 +15,14 @@ const { auth } = require('./middleware/auth')
 const { LoginUser, LogoutUser, getUserDetails, getFirstPage, getAlli } = require('./controller/AuthController');
 
 //Show All Robots
-app.get('/robots', auth, async function (req, res) {
-    try {
-        const result = await robot.find({});
-        res.send(result);
-    } catch (error) {
-        console.log(error);
-    }
-});
 
-//Show All Robot Details
-app.get('/robot_details', auth, async function (req, res) {
-    try {
-        const result = await robotDetails.find({});
-        res.send(result);
-    } catch (error) {
-        console.log(error);
-    }
+app.get("/robots", auth, async function (req, res) {
+  try {
+    const result = await Robot.find({});
+    res.send(result);
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 app.post('/login',LoginUser);
@@ -49,9 +39,9 @@ app.get('/logout', auth, LogoutUser);
 app.get('/', getFirstPage);
 
 app.use(
-    express.static("build", {
-        fallthrough: false,
-    })
+  express.static("build", {
+    fallthrough: false,
+  })
 );
 
-module.exports = app;
+export default app;

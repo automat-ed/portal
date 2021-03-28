@@ -1,11 +1,23 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
+const { Schema } = mongoose;
 
-// Define schema
-const robotSchema = new mongoose.Schema({
-    name: String,
-    connected: Boolean,
-    ipaddress: String,
+// Define subdocuments
+const robotStateSchema = new Schema({
+  connected: { type: Boolean, default: false },
+  battery: { type: Number, default: null },
+  state: { type: String, default: "Off" },
+  gps: {
+    lat: { type: String, default: null },
+    lng: { type: String, default: null },
+  },
+});
+
+// Define Robot schema
+const robotSchema = new Schema({
+  name: String,
+  key: { type: String, index: true },
+  state: { type: robotStateSchema, default: {} },
 });
 
 // Export model
-module.exports = mongoose.model("Robot", robotSchema);
+export default mongoose.model("Robot", robotSchema);
