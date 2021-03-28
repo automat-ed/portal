@@ -24,17 +24,17 @@ exports.RegisterUser = async (req, res) => {
 exports.LoginUser = (req, res) => {
 	User.findOne({ 'name': req.body.name }, (err, user) => {
 		if (!user) {
-			return res.status(404).json({ success: false, message: 'Username not found!' });
+			return res.status(401).json({ success: false, message: 'Invalid credentials!' });
 		} else {
 			user.comparePassword(req.body.password, (err, isMatch) => {
 				console.log(isMatch);
 				//isMatch is eaither true or false
 				if (!isMatch) {
-					return res.status(400).json({ success: false, message: 'Wrong Password!' });
+					return res.status(401).json({ success: false, message: 'Invalid credentials!' });
 				} else {
 					user.generateToken((err, user) => {
 						if (err) {
-							return res.status(400).send({ err });
+							return res.status(511).send({success: false, message: 'Token not generated!' });
 						} else {
 							const data = {
 								userID: user._id,
@@ -106,12 +106,12 @@ exports.RegisterRob = async (req, res) => {
 exports.getAlli = async(req, res) => {
     //var docs = await Notif.find({'read':false});
     //res.render(path.join(__dirname,'../public/index.ejs'), {data: docs});
-    res.sendFile(path.join(__dirname,'../build/index.html'))
+    res.sendFile('/index')
 }
 exports.getAlla = async(req, res) => {
     //var docs = await Notif.find({'read':false});
     //res.render(path.join(__dirname,'../public/add_robot.ejs'), {data: docs});
-    res.render(path.join(__dirname,'../src/components/AddRobot/add_robot.js'))
+    res.render('./addrob')
 }
 
 exports.updateNotif = (req, res) => {
