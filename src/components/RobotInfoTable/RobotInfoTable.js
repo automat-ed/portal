@@ -1,78 +1,48 @@
 /* eslint no-undef: 0 */ // --> OFF
 
-import React, { Component } from 'react'
-import { Table } from 'react-bootstrap';
-import './RobotInfoTable.css'
-class RobotInfoTable extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            robots: []
-        }
-    }
+import React from "react";
+import { Table } from "react-bootstrap";
+import "./RobotInfoTable.css";
 
-    async fetchRobots() {
-        const url = "http://localhost:2000/robots";
-        const response = await fetch(url);
-        if (response.ok) {
-            const robots = await response.json();
-            this.setState({ robots: robots })
-            console.log(robots)
-        }
-        else {
-            this.setState({ error: true })
-        }
-    }
-    componentDidMount() {
-        this.timer = setInterval(() => this.fetchRobots(), 5000);
-        this.fetchRobots()
-    }
+function RobotInfoTable(props) {
+  let robotTableRows = null;
+  if (props.robots.length === 0) {
+    robotTableRows = (
+      <tr style={{ cursor: "pointer" }}>
+        <td colSpan={4}>No robots found.</td>
+      </tr>
+    );
+  } else {
+    robotTableRows = props.robots.map((robot) => (
+      <tr
+        className="clickable-row"
+        key={robot._id}
+        onClick={props.onRobotSelect(robot._id)}
+        style={{ cursor: "pointer" }}
+      >
+        <td>{robot.name}</td>
+        <td>{robot.state.state}</td>
+        <td>{robot.state.battery}</td>
+        <td></td>
+      </tr>
+    ));
+  }
 
-    rowSelect = value => () => {
-        console.log(value);
-    }
-
-    renderTableRow = () => {
-        return this.state.robots.map(robot => {
-            return (
-                <tr className="clickable-row" key={robot._id} onClick={this.rowSelect()}>
-                    <td>{robot._id}</td>
-                    <td>{robot.name}</td>
-                    <td>{robot.ip_address}</td>
-                    <td>{robot.connected ? "No" : "Yes"}</td>
-                </tr>
-            )
-        })
-    }
-
-
-
-    render() {
-        const { robots } = this.state
-        return robots.length > 0
-            ? (
-                <div className="tableWrapper">
-                    <Table responsive striped bordered hover variant="dark">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Name</th>
-                                <th>IP</th>
-                                <th>Online</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {this.renderTableRow()}
-                        </tbody>
-                    </Table>
-                </div>
-            ) : (
-                <div>No Robots Registered</div>
-            )
-    }
-
-
+  return (
+    <div className="tableWrapper">
+      <Table responsive striped bordered hover variant="dark">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>State</th>
+            <th>Battery</th>
+            <th>Grit Level</th>
+          </tr>
+        </thead>
+        <tbody>{robotTableRows}</tbody>
+      </Table>
+    </div>
+  );
 }
 
-
-export default RobotInfoTable
+export default RobotInfoTable;
