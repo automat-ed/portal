@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import RobotInfoTable from "../RobotInfoTable/RobotInfoTable.js";
 import { Row, Table, Button } from "react-bootstrap";
 import "./SideBar.css";
+import socket from "../../socket/socket.js";
 
 function SideBar(props) {
   const activeRobots = props.robots.filter((robot) => {
@@ -18,6 +19,18 @@ function SideBar(props) {
       return robot._id === props.currRobot;
     })[0];
   }
+
+  const handleClickStart = () => {
+    if (props.currRobot) {
+      socket.emit("start", { key: props.currRobot });
+    }
+  };
+
+  const handleClickEmergency = () => {
+    if (props.currRobot) {
+      socket.emit("emergency", { key: props.currRobot });
+    }
+  };
 
   const robotDetails = (
     <Table responsive striped bordered hover variant="dark">
@@ -79,8 +92,12 @@ function SideBar(props) {
       </Row>
       <Row>
         <div className="buttonArr">
-          <Button variant="success">Start Robot</Button>
-          <Button variant="danger">Emergency Stop</Button>
+          <Button variant="success" onClick={handleClickStart}>
+            Start Robot
+          </Button>
+          <Button variant="danger" onClick={handleClickEmergency}>
+            Emergency Stop
+          </Button>
         </div>
       </Row>
       <Row>{robotDetails}</Row>

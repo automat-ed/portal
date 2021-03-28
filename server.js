@@ -5,6 +5,7 @@ import mongoose from "mongoose";
 import app from "./app.js";
 import Robot from "./models/robot.js";
 import dotenv from "dotenv";
+import robot from "./models/robot.js";
 
 // Read .env file for secrets
 dotenv.config();
@@ -25,52 +26,81 @@ const io = new Server(server);
 
 io.use(async (socket, next) => {
   const robot_key = socket.handshake.headers.secret;
-  const valid_robot = await Robot.findOne({ key: robot_key });
 
-  if (!valid_robot) {
-    const err = new Error("Not authorized");
-    err.data = { content: "Robot is not authorized to connect to Portal." };
-    next(err);
-  } else {
-    socket.user = valid_robot._id;
+  console.log(robot_key);
+
+  if (robot_key === "frontend") {
     next();
+  } else {
+    const valid_robot = await Robot.findOne({ key: robot_key });
+
+    if (!valid_robot) {
+      const err = new Error("Not authorized");
+      err.data = { content: "Robot is not authorized to connect to Portal." };
+      next(err);
+    } else {
+      socket.user = valid_robot._id;
+      next();
+    }
   }
 });
+
+let robot_mapping = {};
 
 io.on("connection", (socket) => {
   console.log("connected");
 
-  socket.on("disconnect", () => {
-    console.log("disconnected");
-    Robot.findByIdAndUpdate(
-      socket.user,
-      {
-        state: {
-          connected: false,
-          battery: null,
-          state: "Off",
-          gps: {
-            lat: null,
-            lng: null,
+  if (socket.user) {
+    robot_mapping = {
+      ...robot_mapping,
+      [socket.user]: socket.id,
+    };
+
+    console.log(robot_mapping);
+
+    socket.on("disconnect", () => {
+      console.log("disconnected");
+      Robot.findByIdAndUpdate(
+        socket.user,
+        {
+          state: {
+            connected: false,
+            battery: null,
+            state: "Off",
+            gps: {
+              lat: null,
+              lng: null,
+            },
           },
         },
-      },
-      function (err, res) {
-        if (err) {
-          console.log(err);
+        function (err, res) {
+          if (err) {
+            console.log(err);
+          }
         }
-      }
-    );
-  });
-
-  socket.on("robot_detail", async (data) => {
-    console.log(data);
-    Robot.findByIdAndUpdate(socket.user, { state: data }, function (err, res) {
-      if (err) {
-        console.log(err);
-      }
+      );
     });
-  });
+
+    socket.on("robot_detail", async (data) => {
+      Robot.findByIdAndUpdate(
+        socket.user,
+        { state: data },
+        function (err, res) {
+          if (err) {
+            console.log(err);
+          }
+        }
+      );
+    });
+  } else {
+    socket.on("start", async (data) => {
+      io.to(robot_mapping[data.key]).emit("start", {});
+    });
+
+    socket.on("emergency", async (data) => {
+      io.to(robot_mapping[data.key]).emit("emergency", {});
+    });
+  }
 });
 
 server.listen(2000, () => {
