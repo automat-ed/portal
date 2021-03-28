@@ -1,4 +1,3 @@
-//const db = require('../models/db');
 const path = require('path');
 const User = require('../models/users');
 const Robot = require("../models/robot");
@@ -27,8 +26,6 @@ exports.LoginUser = (req, res) => {
 			return res.status(401).json({ success: false, message: 'Invalid credentials!' });
 		} else {
 			user.comparePassword(req.body.password, (err, isMatch) => {
-				console.log(isMatch);
-				//isMatch is eaither true or false
 				if (!isMatch) {
 					return res.status(401).json({ success: false, message: 'Invalid credentials!' });
 				} else {
@@ -42,8 +39,8 @@ exports.LoginUser = (req, res) => {
 								email: user.email,
 								token: user.token
 							}
-							//saving token to cookie
-							res.cookie('authToken', user.token, {maxAge: 28800 * 1000, httpOnly: true}); // available 8h
+							// Saving token to cookie
+							res.cookie('authToken', user.token, {maxAge: 28800 * 1000, httpOnly: true}); // Available 8h
 							res.redirect('/index')
 						}
 					});
@@ -62,8 +59,9 @@ exports.LogoutUser = (req, res) => {
 		}
 	)
 }
-//get authenticated user details
-exports.getUserDetails= (req, res) => {
+
+// Get authenticated user details
+exports.getUserDetails = (req, res) => {
 	return res.status(200).json({
 		isAuthenticated: true,
 		name: req.user.name,
@@ -83,35 +81,11 @@ exports.getFirstPage = (req, res) => {
 	})
 }
 
-exports.RegisterRob = async (req, res) => {
-	var robot = new Robot(req.body);
-	await robot.save((err, doc) => {
-		if (err) {
-		return res.status(422).json({errors:err})
-		} else {
-			const robotData = {
-				name: doc.name,
-				ipaddress: doc.ipaddress,
-			}
-			return res.status(200).json({
-				success: true,
-				message: 'Robot Successfully Added',
-				name: doc.name,
-				ipaddress: doc.ipaddress,
-			})
-		}
-	});
-}
 
 exports.getAlli = async(req, res) => {
     //var docs = await Notif.find({'read':false});
     //res.render(path.join(__dirname,'../public/index.ejs'), {data: docs});
     res.sendFile('/index')
-}
-exports.getAlla = async(req, res) => {
-    //var docs = await Notif.find({'read':false});
-    //res.render(path.join(__dirname,'../public/add_robot.ejs'), {data: docs});
-    res.render('./addrob')
 }
 
 exports.updateNotif = (req, res) => {
