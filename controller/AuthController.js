@@ -1,8 +1,8 @@
-const path = require('path');
-const User = require('../models/users');
-const Robot = require("../models/robot");
-const Notif = require("../models/notifications");
-exports.RegisterUser = async (req, res) => {
+import path from 'path';
+import User from '../models/users.js';
+import Robot from "../models/robot.js";
+import Notif from "../models/notifications.js";
+export const RegisterUser = async (req, res) => {
 	const user = new User(req.body);
 	await user.save((err, doc) => {
 		if (err) {
@@ -20,7 +20,7 @@ exports.RegisterUser = async (req, res) => {
 		}
 	});
 }
-exports.LoginUser = (req, res) => {
+export const LoginUser = (req, res) => {
 	User.findOne({ 'name': req.body.name }, (err, user) => {
 		if (!user) {
 			return res.status(401).json({ success: false, message: 'Invalid credentials!' });
@@ -49,7 +49,7 @@ exports.LoginUser = (req, res) => {
 		}
 	});
 }
-exports.LogoutUser = (req, res) => {
+export const LogoutUser = (req, res) => {
 	User.findByIdAndUpdate(
 		{ _id: req.user._id },
 		{ token: '' },
@@ -61,7 +61,7 @@ exports.LogoutUser = (req, res) => {
 }
 
 // Get authenticated user details
-exports.getUserDetails = (req, res) => {
+export const getUserDetails = (req, res) => {
 	return res.status(200).json({
 		isAuthenticated: true,
 		name: req.user.name,
@@ -69,7 +69,7 @@ exports.getUserDetails = (req, res) => {
 	});
 }
 
-exports.getFirstPage = (req, res) => {
+export const getFirstPage = (req, res) => {
 	User.findByToken(req.cookies.authToken, (err, user) => {
 		if(err) {
 			return res.redirect('/login')
@@ -81,14 +81,36 @@ exports.getFirstPage = (req, res) => {
 	})
 }
 
+export const RegisterRob = async (req, res) => {
+	var robot = new Robot(req.body);
+	await robot.save((err, doc) => {
+		if (err) {
+		return res.status(422).json({errors:err})
+		} else {
+			return res.redirect('/index');
+			/*
+			const robotData = {
+				name: doc.name,
+				ipaddress: doc.ipaddress,
+			}
+			return res.status(200).json({
+				success: true,
+				message: 'Robot Successfully Added',
+				name: doc.name,
+				ipaddress: doc.ipaddress,
+			})
+			*/
+		}
+	});
+}
 
-exports.getAlli = async(req, res) => {
+export const getAlli = async(req, res) => {
     //var docs = await Notif.find({'read':false});
     //res.render(path.join(__dirname,'../public/index.ejs'), {data: docs});
     res.sendFile('/index')
 }
 
-exports.updateNotif = (req, res) => {
+export const updateNotif = (req, res) => {
 	console.log(req.params.id);
 	const doc = Notif.findByIdAndUpdate(req.params.id, { $set: { read: true }}, (err, doc) => {
 		if(err) return res.status(400).send({ err });

@@ -1,8 +1,8 @@
-const mongoose = require('mongoose');
-const dotenv = require('dotenv');
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-require('dotenv').config();
+import mongoose from 'mongoose';
+import dotenv from 'dotenv';
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+dotenv.config();
 
 var us = new mongoose.Schema({
 	name: { type: String, minlength: 6, maxlength: 125, unique: true },
@@ -60,4 +60,4 @@ us.statics.findByToken = function (token, callBack) {
 };
 
 var users = mongoose.model('users', us);
-module.exports = users;
+export default users;

@@ -1,5 +1,6 @@
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import Navigationbar from './Navbar/Navbar';
 import Leaflet from "./Leaflet/Leaflet.js";
 import SideBar from "./SideBar/SideBar.js";
 import React, { useState, useEffect } from "react";
@@ -36,6 +37,7 @@ function App() {
 
   return (
     <div>
+    <Navigationbar />
       <Container fluid className="bg">
         <Row>
           <Col sm={9}>

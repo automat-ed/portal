@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 var not = new mongoose.Schema({
 	read: { type: Boolean, default: false},
@@ -9,4 +9,4 @@ var not = new mongoose.Schema({
 });
 
 var notifications = mongoose.model('notifications', not);
-module.exports = notifications;
+export default notifications;
