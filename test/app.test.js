@@ -20,8 +20,8 @@ describe("Server-side Tests", function () {
   });
 
   describe("GET /", function () {
-    it("returns 200 OK", function (done) {
-      request(app).get("/").expect(200, done);
+    it("returns 302 Found", function (done) {
+      request(app).get("/").expect(302, done);
     });
   });
 
