@@ -111,12 +111,11 @@ export const getAlli = async(req, res) => {
 }
 
 export const updateNotif = (req, res) => {
-	console.log(req.params.id);
-	const doc = Notif.findByIdAndUpdate(req.params.id, { $set: { read: true }}, (err, doc) => {
-		if(err) return res.status(400).send({ err });
-		else
-		{
-			return res.redirect('/index');
+	console.log(req.body.id);
+	Notif.findByIdAndUpdate(req.body.id, { $set: { read: true }}, null, (err, doc) => {
+		if(err) res.status(400).send({ err });
+		else {
+			res.status(200).send({})
 		}
 	});
 }
