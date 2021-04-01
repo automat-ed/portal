@@ -1,8 +1,7 @@
 import mongoose from "mongoose";
-const { Schema } = mongoose;
 
 // Define subdocuments
-const robotStateSchema = new Schema({
+const robotStateSchema = new mongoose.Schema({
   connected: { type: Boolean, default: false },
   battery: { type: Number, default: null },
   state: { type: String, default: "Off" },
@@ -13,7 +12,7 @@ const robotStateSchema = new Schema({
 });
 
 // Define Robot schema
-const robotSchema = new Schema({
+const robotSchema = new mongoose.Schema({
   name: String,
   key: { type: String, index: true },
   state: { type: robotStateSchema, default: {} },
