@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" crossorigin="anonymous" />
+  <title>StreetSmart by AutomatED</title>
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand">
+      StreetSmart by <img alt="" src="/inverted_logo.png" class="d-inline-block align-top" width="125" height="30">
+    </a>
+    <button aria-controls="responsive-navbar-nav" type="button" aria-label="Toggle navigation" class="navbar-toggler collapsed">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    
+    <div class="navbar-collapse collapse" id="responsive-navbar-nav">
+      
+      <div class="mr-auto navbar-nav">
+        <a href="/index" data-rb-event-key="#" class="nav-link" role="button">Monitoring Panel</a>
+        <a href="/addrob" data-rb-event-key="#" class="nav-link" role="button">Robot Registration</a>
+        <a href="/logout" data-rb-event-key="#" class="nav-link" role="button">Logout</a>
+      </div>
+    </div>
+  </nav>
+  <center>
+  <form action="/addrob" method="post">
+    <div class="form-group" style="max-width: 330px">
+        <label for="name">Robot's name</label>
+        <input type="text" class="form-control" id="name" name="name" placeholder="Enter name of robot" required>
+    </div>
+      <div class="form-group" style="max-width: 330px">
+        <label for="ipaddress">Robot's key</label>
+        <input type="text" class="form-control" id="key" name="key" placeholder="Enter Robot's key" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+  </center>
+</body>
+
+</html>
