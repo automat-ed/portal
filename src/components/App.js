@@ -17,7 +17,6 @@ function App() {
       if (response.ok) {
         const new_robots = await response.json();
         setRobots([...new_robots]);
-        //console.log(new_robots);
       }
     } catch {}
   };

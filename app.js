@@ -1,6 +1,5 @@
 import express from "express";
 import Robot from "./models/robot.js";
-
 import path from 'path';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
@@ -17,7 +16,6 @@ import { auth } from './middleware/auth.js';
 import { LoginUser, LogoutUser, getUserDetails, RegisterRob, getFirstPage, updateNotif} from './controller/AuthController.js';
 
 //Show All Robots
-
 app.get("/robots", auth, async function (req, res) {
   try {
     const result = await Robot.find({});
